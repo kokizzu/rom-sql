@@ -1,5 +1,5 @@
-RSpec.describe 'ROM::SQL::Schema::MysqlInferrer', :mysql do
-  include_context 'database setup'
+RSpec.describe "ROM::SQL::Schema::MysqlInferrer", :mysql do
+  include_context "database setup"
 
   before do
     inferrable_relations.concat %i(test_inferrence)
@@ -11,16 +11,16 @@ RSpec.describe 'ROM::SQL::Schema::MysqlInferrer', :mysql do
       mediumint :medium
       bigint :big
       datetime :created_at
-      column :date_and_time, 'datetime(0)'
-      column :time_with_ms, 'datetime(3)'
+      column :date_and_time, "datetime(0)"
+      column :time_with_ms, "datetime(3)"
       timestamp :unix_time_usec
-      column :unix_time_sec, 'timestamp(0) null'
+      column :unix_time_sec, "timestamp(0) null"
       boolean :flag, null: false
 
-      column :ttext, 'tinytext', null: false
-      column :mtext, 'mediumtext', null: false
-      column :rtext, 'text', null: false
-      column :ltext, 'longtext', null: false
+      column :ttext, "tinytext", null: false
+      column :mtext, "mediumtext", null: false
+      column :rtext, "text", null: false
+      column :ltext, "longtext", null: false
     end
   end
 
@@ -33,10 +33,8 @@ RSpec.describe 'ROM::SQL::Schema::MysqlInferrer', :mysql do
   let(:schema) { container.relations[:test_inferrence].schema }
   let(:source) { container.relations[:test_inferrence].name }
 
-  it 'can infer attributes for dataset' do
-    if ENV['GITHUB_WORKFLOW'] && RUBY_VERSION >= "2.7" && RUBY_VERSION < "3.0"
-      pending 'This fails on CI with Sequel from master (possibly a regression in Sequel)'
-    end
+  it "can infer attributes for dataset" do
+    pending "This fails with Sequel > 5.something (possibly a regression in Sequel?)"
 
     expect(schema[:tiny].source).to be(source)
     expect(schema[:tiny].unwrap.type.primitive).to be(Integer)
